@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { userDetails } from "./components/consonets/userDetails";
 import Navbar from "./components/Navbar/Navbar";
 import AgeCalulation from "./components/Age/AgeCalulation";
@@ -24,6 +24,18 @@ const App = () => {
       setCurrInfo(isValid);
     }
   }, [currInfo, isValid]);
+
+  const PublicRoutes = ({ Component, ...props }) => {
+    return currInfo ? <Navigate to={"/"}  /> : <Component {...props} />;
+    // return token ? <Navigate to={"/"} /> : <Component />;
+  };
+  const ProtectedRoute = (Props) => {
+    return currInfo ? (
+      <Props.Component>{Props.children}</Props.Component>
+    ) : (
+      <Navigate to={"/login"} />
+    );
+  };
 
   return (
     <>
